@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence      http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="telemetria" transaction-type="RESOURCE_LOCAL">
+  
+        <!-- provedor/implementacao do JPA -->
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+   
+        <!-- entidade mapeada -->
+        <class>br.com.telemetria.entidade.TipoOcorrenciaReprodutivo</class>
+        <class>br.com.telemetria.entidade.Municipios</class>
+        <class>br.com.telemetria.entidade.Praias</class>
+        <class>br.com.telemetria.entidade.EspecieTartaruga</class>
+        <class>br.com.telemetria.entidade.Idade</class>
+        <class>br.com.telemetria.entidade.SituacaoOcorrenciaReprodutivo</class>
+        <class>br.com.telemetria.entidade.Tumores</class>
+        <class>br.com.telemetria.entidade.SubBase</class>
+        <class>br.com.telemetria.entidade.TempoTransferencia</class>
+        <class>br.com.telemetria.entidade.CoordenadasGeograficas</class>
+        <class>br.com.telemetria.entidade.Ninho</class>
+        <class>br.com.telemetria.entidade.Ocorrencia</class>
+        <class>br.com.telemetria.entidade.OcorrenciaReprodutiva</class>
+        <class>br.com.telemetria.entidade.Tartaruga</class>
+        <class>br.com.telemetria.entidade.TransferenciaNinho</class>
+        <class>br.com.telemetria.entidade.Interacao</class>
+        <class>br.com.telemetria.entidade.CausaPrimaria</class>
+        <class>br.com.telemetria.entidade.CausaSecundaria</class>
+        <class>br.com.telemetria.entidade.CondicaoCorporal</class>
+        <class>br.com.telemetria.entidade.CondicaoNecropsia</class>
+        <class>br.com.telemetria.entidade.Destino</class>
+        <class>br.com.telemetria.entidade.EstagioDecomposicao</class>
+        <class>br.com.telemetria.entidade.EvidenciaPesca</class>
+        <class>br.com.telemetria.entidade.Forma</class>
+        <class>br.com.telemetria.entidade.Interacao</class>
+        <class>br.com.telemetria.entidade.Local</class>
+        <class>br.com.telemetria.entidade.TipoRegistroNaoReprodutivo</class>
+        <class>br.com.telemetria.entidade.HistoricoNinho</class>
+        <class>br.com.telemetria.entidade.Reabilitacao</class>
+        <class>br.com.telemetria.entidade.InteracaoAntropica</class>
+        <class>br.com.telemetria.entidade.Necropsia</class>
+        <class>br.com.telemetria.entidade.InteracaoAntropicaXNecropsia</class>
+        <class>br.com.telemetria.entidade.ColetaAmostras</class>
+        <class>br.com.telemetria.entidade.ColetaTecidos</class>
+        <class>br.com.telemetria.entidade.OcorrenciaNaoReprodutiva</class>
+        <class>br.com.telemetria.entidade.Origem</class>
+    
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+  
+        <properties>
+           
+            <!-- dados da conexao -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/telemetriaTeste"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="TrustNo1*@"/>
+            
+            <!--  propriedades do hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+                   
+            <!--  atualiza o banco, gera as tabelas se for preciso -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+   
+</persistence>

@@ -1,0 +1,196 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel id="painel" >
+
+            <h:form id="frmCadastro">
+                <p:messages id="msg" />
+
+                <p:toolbar >
+                    <p:toolbarGroup align="right" >
+                        <p:button value="Voltar" outcome="gridNaoReprodutivo?faces-redirect=true" style="height: 40px"
+                                  icon="fa fa-undo" />
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <div class="ui-fluid">
+                    <p:fieldset legend="Necropsia" >
+
+                        <p:panelGrid columns="4" layout="grid"
+                                     columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                     styleClass="panelgrid-noborder">
+
+                            <p:outputLabel value="Veterinario" for="vet"/>
+                            <p:inputText id="vet" value="#{necropsiaBean.necropsia.veterinario}"/>
+
+                            <p:outputLabel value="Nº Ficha" for="ficha"/>
+                            <p:inputText id="ficha" value="#{necropsiaBean.necropsia.numeroFicha}"/>
+
+                            <p:outputLabel value="Nº Ficha Reabilitação" for="fichaReabilitacao"/>
+                            <p:inputText id="fichaReabilitacao" value="#{necropsiaBean.necropsia.numeroFicha}"/>
+
+                            <p:outputLabel value="Nº Registro" for="numRegistro"/>
+                            <p:inputText id="numRegistro" value="#{necropsiaBean.necropsia.numeroFicha}"/>
+
+                            <p:outputLabel value="Anilha" for="anilha"/>
+                            <p:inputText id="anilha" value="#{necropsiaBean.necropsia.anilhas}"/>
+
+                            <p:outputLabel value="Data Necropsia" for="data" />
+                            <p:calendar id="data" mask="99/99/9999"  pattern="dd/MM/yyyy" 
+                                        value="#{necropsiaBean.necropsia.dataNecropsia}"
+                                        required="true" requiredMessage="preenchimento obrigatorio" />
+
+                            <p:outputLabel value="Condição Necropsia" for="condicao"/>
+                            <p:selectOneMenu id="condicao"  value="#{necropsiaBean.necropsia.idCondicaoNecropsiafk}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="preenchimento obrigatorio">
+                                <f:selectItem itemLabel="Selecione a praia" noSelectionOption="true" 
+                                              />
+                                <f:selectItems value="#{condicaoNecropsiaBean.lista}" var="cursor" 
+                                               itemLabel="#{cursor.codigo}" itemValue="#{cursor}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Achados Necroscopicos" for="achados"/>
+                            <p:inputText id="achados" value="#{necropsiaBean.necropsia.achadosNecroscopicos}"/>
+
+                            <p:outputLabel value="Causa Primaria" for="causaPrimaria"/>
+                            <p:selectOneMenu id="causaPrimaria"  value="#{necropsiaBean.necropsia.idCausaPrimariafk}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="preenchimento obrigatorio">
+                                <f:selectItem itemLabel="Causa Primaria" noSelectionOption="true" 
+                                              />
+                                <f:selectItems value="#{causaPrimariaBean.lista}" var="cursor" 
+                                               itemLabel="#{cursor.codigo}" itemValue="#{cursor}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Causa Secundaria" for="causaSecundaria"/>
+                            <p:selectOneMenu id="causaSecundaria"  value="#{necropsiaBean.necropsia.idCausaSecundariafk}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="preenchimento obrigatorio">
+                                <f:selectItem itemLabel="Causa Secundaria" noSelectionOption="true" />
+                                <f:selectItems value="#{causaSecundariaBean.lista}" var="cursor" 
+                                               itemLabel="#{cursor.codigo}" itemValue="#{cursor}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Parasito" for="parasito"/>
+                            <p:inputText id="parasito" value="#{necropsiaBean.necropsia.parasito}"/>
+
+                            <p:outputLabel value="Lixo Localizado" for="lixoLocalizado"/>
+                            <p:inputText id="lixoLocalizado" value="#{necropsiaBean.necropsia.lixoLocalizacao}"/>
+
+                            <p:outputLabel value="Lixo Conteudo" for="lixoConteudo"/>
+                            <p:inputText id="lixoConteudo" value="#{necropsiaBean.necropsia.lixoConteudo}"/>
+
+                            <p:outputLabel value="Registro Fotografico" for="cb9"/>
+                            <p:selectOneMenu id="cb9" value="#{necropsiaBean.necropsia.registrosFotografico}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="Coleção científica">
+                                <f:selectItem itemLabel="Sim" itemValue="true" />
+                                <f:selectItem itemLabel="Não" itemValue="false" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Coleta amostras" for="coletaAmosras"/>
+                            <p:inputText id="coletaAmosras" value="#{necropsiaBean.necropsia.coletaAmostras}"/>
+
+
+                            <p:outputLabel value="Laudo toxicológico" for="laudoToxicologico"/>
+                            <p:inputText id="laudoToxicologico" value="#{necropsiaBean.necropsia.laudoToxicologico}"  /> 
+
+                            <p:outputLabel value="Laudo microbiológico" for="microbiologico"/>
+                            <p:inputText id="microbiologico" value="#{necropsiaBean.necropsia.laudoMicrobiologico}"  /> 
+
+                            <p:outputLabel value="Laudo parasitológico" for="laudoParasitologico"/>
+                            <p:inputText id="laudoParasitologico" value="#{necropsiaBean.necropsia.laudoParasitologico}"  /> 
+
+                            <p:outputLabel value="Laudo Histopatológico" for="laudoHistopologico"/>
+                            <p:inputText id="laudoHistopologico" value="#{necropsiaBean.necropsia.laudoHistopatologico}"  /> 
+
+                            <p:outputLabel value="Diagnostico final" for="diagnostico"/>
+                            <p:inputText id="diagnostico" value="#{necropsiaBean.necropsia.diagnosticoFinal}"/>
+
+
+                            <p:outputLabel value="Observações:" for="obs" />
+                            <p:inputTextarea value="#{necropsiaBean.necropsia.observacoes}" id="obs" />
+                        </p:panelGrid>
+
+                        <p:fieldset legend="Coleta de tecidos">
+                            <p:panelGrid columns="4" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Laudo toxicológico" for="toxicologico"/>
+                                <p:inputText id="toxicologico" value="#{necropsiaBean.coletaTecidos.laudoToxicologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo microbiológico" for="microbiologico3"/>
+                                <p:inputText id="microbiologico3" value="#{necropsiaBean.coletaTecidos.laudoMicrobiologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo parasitológico" for="parasitologico"/>
+                                <p:inputText id="parasitologico" value="#{necropsiaBean.coletaTecidos.laudoParasitologico}"
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo histopalógico" for="histopalogico"/>
+                                <p:inputText id="histopalogico" value="#{necropsiaBean.coletaTecidos.laudoHistopatologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                            </p:panelGrid>
+                            <p:outputLabel value="Observações:" for="obsII" />
+                            <p:inputTextarea value="#{necropsiaBean.coletaTecidos.observacoes}" id="obsII" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+                        </p:fieldset>
+
+                        <p:fieldset legend="Coleta de amostras">
+                            <p:panelGrid columns="4" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Laudo toxicológico" for="toxicologico2"/>
+                                <p:inputText id="toxicologico2" value="#{necropsiaBean.coletaAmostras.laudoToxicologico}" />
+
+                                <p:outputLabel value="Laudo microbiológico" for="microbiologico2"/>
+                                <p:inputText id="microbiologico2" value="#{necropsiaBean.coletaAmostras.laudoMicrobiologico}" />
+
+                                <p:outputLabel value="Laudo parasitológico" for="parasitologico2"/>
+                                <p:inputText id="parasitologico2" value="#{necropsiaBean.coletaAmostras.laudoParasitologico}" />
+
+                                <p:outputLabel value="Laudo histopalógico" for="histopalogico2"/>
+                                <p:inputText id="histopalogico2" value="#{necropsiaBean.coletaAmostras.laudoHistopatologico}" />
+                            </p:panelGrid>
+
+                            <p:outputLabel value="Observações:" for="obsIII" />
+                            <p:inputTextarea value="#{necropsiaBean.coletaAmostras.observacoes}" id="obsIII" />
+                        </p:fieldset>
+
+                    </p:fieldset>
+
+                </div>
+
+                <p:toolbar>
+                    <f:facet name="right">
+                        <p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{ocorrenciaNAOReprodutivaBean.salvar}"
+                                         style="height: 40px" /> 
+
+                        <p:commandButton value="Excluir"  icon="fa fa-bitbucket"  actionListener="#{ocorrenciaNAOReprodutivaBean.excluir}"
+                                         style="height: 40px" rendered="#{not empty ocorrenciaNAOReprodutivaBean.naoReprodutiva.id}"> 
+                            <p:confirm header="Confirmação" message="Deseja excluir o registro ?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:toolbar>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </f:facet>
+
+        <title>Telemetria</title>
+
+        <h:outputStylesheet library="algaworks" name="styles/custom.css" />
+        <h:outputStylesheet library="algaworks" name="styles/layout.css" />
+        <h:outputStylesheet library="algaworks" name="styles/components.css" />
+
+        <h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
+        <h:outputScript target="body" library="algaworks" name="javascripts/app.js" />
+    </h:head>
+
+    <h:body>
+      
+
+        <header class="aw-topbar">
+            <a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars"></i></a>
+        </header>
+
+        <aside class="aw-sidebar  js-sidebar">
+            <h:form>
+                <nav class="aw-menu">
+                    <ul>
+                        <p:menu toggleable="true" >
+                            <p:submenu label="Ocorrência"  >
+                                <p:menuitem value="Reprodutivo" action="#{menuBean.login}"  icon="fa fa-ellipsis-h " />
+                                <p:menuitem value="Não Reprodutivo" action="#{menuBean.naoReprodutivo}" icon="fa fa-ellipsis-h"/>
+                            </p:submenu>
+                            
+                             <p:submenu label="Adm / Reprodutivo" >
+                                <p:menuitem value="Tipo ocorrência" action="#{menuBean.tipoOcorrencia}"  icon="fa fa-cog" />
+                                <p:menuitem value="Praias" action="#{menuBean.praia}"  icon="fa fa-cog" />
+                                <p:menuitem value="Espécie" action="#{menuBean.tipoEspecie}"  icon="fa fa-cog" />
+                                <p:menuitem value="Idade" action="#{menuBean.idade}"  icon="fa fa-cog" />
+                                <p:menuitem value="Situacão Ocorrência" action="#{menuBean.situacaoOcorrencia}"  icon="fa fa-cog" />
+                                <p:menuitem value="Tumores" action="#{menuBean.tumores}"  icon="fa fa-cog" />
+                                <p:menuitem value="Sub-Base" action="#{menuBean.subBase}"  icon="fa fa-cog" />
+                                <p:menuitem value="Tempo transferência" action="#{menuBean.tempTrans}"  icon="fa fa-cog" />
+                                <p:menuitem value="Histórico ninho" action="#{menuBean.historicoNinho}"  icon="fa fa-cog" />
+                                
+                            </p:submenu>
+                            
+                            <p:submenu label="Adm / Não Reprodutivo">
+                                <p:menuitem value="Causa primária" action="#{menuBean.causaPrimaria}"  icon="fa fa-cog" />
+                                <p:menuitem value="Causa secundária" action="#{menuBean.causaSecundaria}"  icon="fa fa-cog" />
+                                <p:menuitem value="Condição necrópsia" action="#{menuBean.condicaoNecropsia}"  icon="fa fa-cog" />
+                                <p:menuitem value="Condição corporal" action="#{menuBean.condicaoCorporal}"  icon="fa fa-cog" />
+                                <p:menuitem value="Destino" action="#{menuBean.destino}"  icon="fa fa-cog" />
+                                <p:menuitem value="Origem" action="#{menuBean.origem}"  icon="fa fa-cog" />
+                                <p:menuitem value="Estágio decomposição" action="#{menuBean.estagioDecomposicao}"  icon="fa fa-cog" />
+                                <p:menuitem value="Evidências pesca" action="#{menuBean.evidenciaPesca}"  icon="fa fa-cog" />
+                                <p:menuitem value="Forma" action="#{menuBean.forma}"  icon="fa fa-cog" />
+                                <p:menuitem value="Interação" action="#{menuBean.interacao}"  icon="fa fa-cog" />
+                                <p:menuitem value="Local" action="#{menuBean.local}"  icon="fa fa-cog" />
+                                <p:menuitem value="Tipo ocorrência" action="#{menuBean.tipoOcorrenciaNaoReprodutivo}"  icon="fa fa-cog" />
+                                
+                            </p:submenu>
+                            
+                            <p:submenu label="Consultar Ocorrência" >
+                                <p:menuitem value="Por período" action="#{menuBean.consuta}"  icon="fa fa-search" />
+                                <p:menuitem value="Por marca" action="#{menuBean.consutaMarca}"  icon="fa fa-search" />
+                            </p:submenu>
+
+                        </p:menu>
+                    </ul>
+                </nav>
+
+            </h:form> 
+
+        </aside>
+
+        <section class="aw-content  js-content">
+            <ui:insert name="content" />
+        </section>
+
+    </h:body>
+
+</html>

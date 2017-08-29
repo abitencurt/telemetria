@@ -1,0 +1,170 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel id="painel" >
+
+            <h:form id="frmCadastro">
+                <p:messages id="msg" />
+
+                <p:toolbar >
+                    <p:toolbarGroup align="right" >
+                        <p:button value="Voltar" outcome="gridNaoReprodutivo?faces-redirect=true" style="height: 40px"
+                                  icon="fa fa-undo" />
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <div class="ui-fluid">
+                    <p:fieldset legend="Reabilitação" >
+
+                        <p:panelGrid columns="4" layout="grid"
+                                     columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                     styleClass="panelgrid-noborder">
+
+                            <p:outputLabel value="Veterinario" for="vet"/>
+                            <p:inputText id="vet" value="#{reabilitacaoBean.reabilitacao.veterinario}"/>
+
+                            <p:outputLabel value="Nº Ficha" for="ficha"/>
+                            <p:inputText id="ficha" value="#{reabilitacaoBean.reabilitacao.numeroFicha}"/>
+
+                            <p:outputLabel value="Anilha" for="anilha"/>
+                            <p:inputText id="anilha" value="#{reabilitacaoBean.reabilitacao.anilhas}"/>
+
+                            <p:outputLabel value="Data Saida" for="data" />
+                            <p:calendar id="data" mask="99/99/9999"  pattern="dd/MM/yyyy" 
+                                        value="#{reabilitacaoBean.reabilitacao.dataSaida}"
+                                        required="true" requiredMessage="preenchimento obrigatorio" />
+
+                            <p:outputLabel value="Tempo Reabilitação" for="tempo"/>
+                            <p:inputText id="tempo" value="#{reabilitacaoBean.reabilitacao.tempoDeReabilitacao}"/>
+
+                            <p:outputLabel value="Status" for="status"/>
+                            <p:inputText id="status" value="#{reabilitacaoBean.reabilitacao.status}"/>
+
+                            <p:outputLabel value="Largura casco" for="largura"/>
+                            <p:inputText id="largura" value="#{reabilitacaoBean.reabilitacao.larguraCascoSaida}" 
+                                         required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                            <p:outputLabel value="Comprimento casco" for="comprimento"/>
+                            <p:inputText id="comprimento" value="#{reabilitacaoBean.reabilitacao.comprimentoCascoSaida}" 
+                                         required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                            <p:outputLabel value="Peso" for="peso"/>
+                            <p:inputText id="peso" value="#{reabilitacaoBean.reabilitacao.pesoSaida}"  /> 
+
+                            <p:outputLabel value="Quadro Clinico" for="quadro"/>
+                            <p:inputText id="quadro" value="#{reabilitacaoBean.reabilitacao.quadroClinico}"  />
+
+                            <p:outputLabel value="Suspeita Clinica" for="suspeita"/>
+                            <p:inputText id="suspeita" value="#{reabilitacaoBean.reabilitacao.suspeitaClinica}"  /> 
+
+                            <p:outputLabel value="Anilha Soltura" for="anilhaSoltura"/>
+                            <p:inputText id="anilhaSoltura" value="#{reabilitacaoBean.reabilitacao.anilhaSoltura}"  /> 
+
+                            <p:outputLabel value="Registro Fotografico" for="cb9"/>
+                            <p:selectOneMenu id="cb9" value="#{reabilitacaoBean.reabilitacao.registrosFotografico}"
+                                             converter="omnifaces.SelectItemsConverter"
+                                             required="true" requiredMessage="Coleção científica">
+                                <f:selectItem itemLabel="Sim" itemValue="true" />
+                                <f:selectItem itemLabel="Não" itemValue="false" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Laudo Microbiologico" for="microbiologico"/>
+                            <p:inputText id="microbiologico" value="#{reabilitacaoBean.reabilitacao.laudoMicrobiologico}"  /> 
+
+                            <p:outputLabel value="Laudo HematBioq" for="hematBioq"/>
+                            <p:inputText id="hematBioq" value="#{reabilitacaoBean.reabilitacao.laudoHematBioq}"  /> 
+
+                            <p:outputLabel value="Laudo coproparas" for="coproparas"/>
+                            <p:inputText id="coproparas" value="#{reabilitacaoBean.reabilitacao.laudoCoproparas}"  /> 
+
+                            <p:outputLabel value="Resultado Raio X" for="raioX"/>
+                            <p:inputText id="raioX" value="#{reabilitacaoBean.reabilitacao.resRaiox}"  /> 
+
+                            <p:outputLabel value="Observações:" for="obs" />
+                            <p:inputTextarea value="#{reabilitacaoBean.reabilitacao.observacoes}" id="obs" />
+                        </p:panelGrid>
+
+                        <p:fieldset legend="Laudo">
+                            <p:panelGrid columns="4" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Laudo toxicológico" for="toxicologico"/>
+                                <p:inputText id="toxicologico" value="#{reabilitacaoBean.coletaTecidos.laudoToxicologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo microbiológico" for="microbiologico3"/>
+                                <p:inputText id="microbiologico3" value="#{reabilitacaoBean.coletaTecidos.laudoMicrobiologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo parasitológico" for="parasitologico"/>
+                                <p:inputText id="parasitologico" value="#{reabilitacaoBean.coletaTecidos.laudoParasitologico}"
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                <p:outputLabel value="Laudo histopalógico" for="histopalogico"/>
+                                <p:inputText id="histopalogico" value="#{reabilitacaoBean.coletaTecidos.laudoHistopatologico}" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                            </p:panelGrid>
+                            <p:outputLabel value="Observações:" for="obsII" />
+                            <p:inputTextarea value="#{reabilitacaoBean.coletaTecidos.observacoes}" id="obsII" 
+                                             required="true" requiredMessage="preenchimento obrigatorio"/>
+                        </p:fieldset>
+
+                        <p:fieldset legend="Coleta de amostras">
+                            <p:panelGrid columns="4" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Laudo toxicológico" for="toxicologico2"/>
+                                <p:inputText id="toxicologico2" value="#{reabilitacaoBean.coletaAmostras.laudoToxicologico}" />
+
+                                <p:outputLabel value="Laudo microbiológico" for="microbiologico2"/>
+                                <p:inputText id="microbiologico2" value="#{reabilitacaoBean.coletaAmostras.laudoMicrobiologico}" />
+
+                                <p:outputLabel value="Laudo parasitológico" for="parasitologico2"/>
+                                <p:inputText id="parasitologico2" value="#{reabilitacaoBean.coletaAmostras.laudoParasitologico}" />
+
+                                <p:outputLabel value="Laudo histopalógico" for="histopalogico2"/>
+                                <p:inputText id="histopalogico2" value="#{reabilitacaoBean.coletaAmostras.laudoHistopatologico}" />
+                            </p:panelGrid>
+
+                            <p:outputLabel value="Observações:" for="obsIII" />
+                            <p:inputTextarea value="#{reabilitacaoBean.coletaAmostras.observacoes}" id="obsIII" />
+                        </p:fieldset>
+
+
+
+
+                    </p:fieldset>
+
+                </div>
+
+                <p:toolbar>
+                    <f:facet name="right">
+                        <p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{ocorrenciaNAOReprodutivaBean.salvar}"
+                                         style="height: 40px" /> 
+
+                        <p:commandButton value="Excluir"  icon="fa fa-bitbucket"  actionListener="#{ocorrenciaNAOReprodutivaBean.excluir}"
+                                         style="height: 40px" rendered="#{not empty ocorrenciaNAOReprodutivaBean.naoReprodutiva.id}"> 
+                            <p:confirm header="Confirmação" message="Deseja excluir o registro ?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:toolbar>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+

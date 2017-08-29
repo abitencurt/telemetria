@@ -1,0 +1,502 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <p:messages autoUpdate="false" />
+
+        <p:dialog modal="false" header="Consultar ocorrencias reprodutivas" visible="false" widgetVar="parametros">
+            <h:form id="frmParametros">
+
+                <p:panelGrid id="painel" columns="2">
+
+                    <p:outputLabel value="Inicio:" for="inicio"/>
+                    <p:calendar id="inicio" value="#{ocorrenciaReprodutivaBean.ocorrencia.dataOcorrencia}" 
+                                pattern="dd/MM/yyyy" showOn="button" />
+
+                    <p:outputLabel value="Termino" for="termino"/>
+                    <p:calendar id="termino" value="#{ocorrenciaReprodutivaBean.ocorrencia.termino}" 
+                                pattern="dd/MM/yyyy" showOn="button" />
+
+                    <p:outputLabel value="Sub-base" for="base_"/>
+                    <p:selectOneMenu id="base_"  value="#{ocorrenciaReprodutivaBean.ocorrencia.idSubBasefk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Selecione a base" noSelectionOption="true" />
+                        <f:selectItems value="#{subBaseBean.lista}" var="base" 
+                                       itemLabel="#{base.nome}" itemValue="#{base}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Tipo ocorrencia" for="tipoOcorrencia_"/>
+                    <p:selectOneMenu id="tipoOcorrencia_" 
+                                     value="#{ocorrenciaReprodutivaBean.ocorrenciaReprodutiva.idTipoOcorrenciaReprodutivofk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Selecione tipo ocorrencia" noSelectionOption="true" />
+                        <f:selectItems value="#{tipoOcorrenciaBean.lista}" var="tipo" 
+                                       itemLabel="#{tipo.codigo}" itemValue="#{tipo}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Praia" for="praia_"/>
+                    <p:selectOneMenu id="praia_"  value="#{ocorrenciaReprodutivaBean.ocorrencia.idPraiafk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Selecione a praia" noSelectionOption="true" />
+                        <f:selectItems value="#{praiasBean.lista}" var="cursor" 
+                                       itemLabel="#{cursor.codigoPraia}" itemValue="#{cursor}" />
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value="Idade" for="idade_"/>
+                    <p:selectOneMenu id="idade_"  value="#{ocorrenciaReprodutivaBean.tartaruga.idIdadefk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Selecione a Idade" noSelectionOption="true" />
+                        <f:selectItems value="#{idadeBean.lista}" var="idade" 
+                                       itemLabel="#{idade.codigo}" itemValue="#{idade}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Espécie" for="especie_"/>
+                    <p:selectOneMenu id="especie_"  value="#{ocorrenciaReprodutivaBean.tartaruga.idEspeciefk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Selecione a Espécie" noSelectionOption="true" />
+                        <f:selectItems value="#{especieTartarugaBean.lista}" var="cursors" 
+                                       itemLabel="#{cursors.sigla}" itemValue="#{cursors}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Tumores" for="tumores_"/>
+                    <p:selectOneMenu id="tumores_" value="#{ocorrenciaReprodutivaBean.tartaruga.idTumoresfk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Tumores" noSelectionOption="true"/>
+                        <f:selectItems value="#{tumoresBean.lista}" var="tumor"
+                                       itemLabel="#{tumor.codigo}" itemValue="#{tumor}"/>
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel value="Situação" for="situacao"/>
+                    <p:selectOneMenu id="situacao" value="#{ocorrenciaReprodutivaBean.ocorrenciaReprodutiva.idSituacaoOcorrenciaReprodutivofk}"
+                                     converter="omnifaces.SelectItemsConverter">
+                        <f:selectItem itemLabel="Situação" noSelectionOption="true"/>
+                        <f:selectItems value="#{situacaoOcorrenciaBean.lista}" var="situacao"
+                                       itemLabel="#{situacao.codigo}" itemValue="#{situacao}"/>
+
+                    </p:selectOneMenu>
+
+
+                </p:panelGrid>
+
+                <p:panel styleClass="pnlBotao">
+                    <p:commandButton action="#{ocorrenciaReprodutivaBean.consutar}"  value="Consultar" icon="fa fa-search-minus" 
+                                     onclick="PF('parametros').hide();" update=":frm" >
+                    </p:commandButton>
+
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="frm">
+            <h1 class="aw-page-title"> </h1>
+
+            <p:panel style="width:100%" header="Ocorrência Reprodutiva">
+                <p:toolbar >
+                    <p:toolbarGroup align="right" >
+                        <p:commandButton value="Novo"  action="#{ocorrenciaReprodutivaBean.novo}"
+                                         oncomplete="PF('dialogo').show();" 
+                                         update=":frmCadastro :frm:tabela " icon="ui-icon-document" />
+
+                        <p:commandButton value="Filtro"  action="#{ocorrenciaReprodutivaBean.novo()}"
+                                         oncomplete="PF('parametros').show();" 
+                                         icon="fa fa-search" />
+
+
+
+                        <p:commandButton id="toggler" type="button" value="Colunas"  icon="ui-icon-calculator" />
+                        <p:columnToggler datasource="tabela" trigger="toggler" />
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+
+                <p:dataTable value="#{ocorrenciaReprodutivaBean.lista}" var="registro"
+                             resizableColumns="true" tableStyle="width:auto" 
+                             selectionMode="single" selection="#{ocorrenciaReprodutivaBean.ocorrenciaReprodutiva}"
+                             rowKey="#{registro.id}" reflow="true" rowHover="true" 
+                             id="tabela"  >
+
+
+
+                    <p:column headerText="N° Diário campo" >
+                        #{registro.idOcorrenciafk.numDiarioCampo}
+                    </p:column>
+
+                    <p:column headerText="Número trecho do registro">
+                        #{registro.idOcorrenciafk.numTrechoRegistro}
+                    </p:column>
+
+                    <p:column headerText="Sub-base"  >
+                        #{registro.idOcorrenciafk.idSubBasefk.nome}
+                    </p:column>
+
+                    <p:column headerText="N° Registro TAMAR" >
+                        #{registro.idOcorrenciafk.numRegTamar}
+                    </p:column>
+
+                    <p:column headerText="Data ocorrência" >
+                        <h:outputLabel value="#{registro.idOcorrenciafk.dataOcorrencia.time}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                        </h:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Hora ocorrência" >
+                        #{registro.idOcorrenciafk.horaOcorrencia}
+                    </p:column>
+
+                    <p:column headerText="Tipo de ocorrência">
+                        #{registro.idTipoOcorrenciaReprodutivofk.codigo}
+                    </p:column>
+
+                    <p:column headerText="Município"  >
+                        #{registro.idOcorrenciafk.idPraiafk.idMunicipiofk.nomeMunicipio}
+                    </p:column>
+
+                    <p:column headerText="Praia">
+                        #{registro.idOcorrenciafk.idPraiafk.codigoPraia}
+                    </p:column>
+
+                    <p:column headerText="Local-Km">
+                        #{registro.idOcorrenciafk.localKM}
+                    </p:column>
+
+                    <p:column headerText="Situação">
+                        #{registro.idSituacaoOcorrenciaReprodutivofk.codigo}
+                    </p:column>
+
+                    <p:column headerText="Latitude">
+                        #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.latitude}
+                    </p:column>
+
+                    <p:column headerText="Longitude">
+                        #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.longitude}
+                    </p:column>
+
+                    <p:column headerText="Erro (m)" >
+                        #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.erro}
+                    </p:column>
+
+                    <p:column headerText="Número do ninho" >
+                        #{registro.idNinhofk.numNinho}
+                    </p:column>
+
+                    <p:column headerText="Praia de destino" >
+                        #{registro.idTransferenciaNinhofk.idPraiafk.codigoPraia}
+                    </p:column>
+
+                    <p:column headerText="Local específico (km de praia) " >
+                        #{registro.idTransferenciaNinhofk.localEspecifico}
+                    </p:column>
+
+                    <p:column headerText="Latitude">
+                        #{registro.idTransferenciaNinhofk.idCoordenadasGeograficasfk.latitude}
+                    </p:column>
+
+                    <p:column headerText="Longitude">
+                        #{registro.idTransferenciaNinhofk.idCoordenadasGeograficasfk.longitude}
+                    </p:column>
+
+                    <p:column headerText="Erro (m)"  >
+                        #{registro.idTransferenciaNinhofk.idCoordenadasGeograficasfk.erro}
+                    </p:column>
+
+                    <p:column headerText="Tempo de transferência">
+                        #{registro.idTransferenciaNinhofk.tempoTransferencia}
+                    </p:column>
+
+                    <p:column headerText="N° Ovos tranferidos" >
+                        #{registro.idNinhofk.qtdOvosTransferidos}
+                    </p:column>
+
+                    <p:column headerText="N° Ovos furados">
+                        #{registro.idNinhofk.qtdOvosFurados}
+                    </p:column>
+
+                    <p:column headerText="N° Não viáveis">
+                        #{registro.idNinhofk.qtdOvosNaoViaveis}
+                    </p:column>
+
+                    <p:column headerText="N° marcas encontradas">
+                        #{registro.idOcorrenciafk.idTartarugafk.numMarcaEncontrada}
+                    </p:column>
+
+                    <p:column headerText="N° marcas colocadas">
+                        #{registro.idOcorrenciafk.idTartarugafk.numMarcaAplicada}
+                    </p:column>
+
+                    <p:column headerText="Comprimento do casco (m)"  >
+                        #{registro.idOcorrenciafk.idTartarugafk.comprimentoCasco}
+                    </p:column>
+
+                    <p:column headerText="Largura do casco (m)" >
+                        #{registro.idOcorrenciafk.idTartarugafk.larguraCasco}
+                    </p:column>
+
+                    <p:column headerText="Espécie" >
+                        #{registro.idOcorrenciafk.idTartarugafk.idEspeciefk.especie}
+                    </p:column>
+
+                    <p:column headerText="Tumores" >
+                        #{registro.idOcorrenciafk.idTartarugafk.idTumoresfk.codigo}
+                    </p:column>
+
+                    <p:column headerText="Histórico do Ninho"  >
+                        #{registro.idNinhofk.historico}
+                    </p:column>
+
+                    <p:column headerText="Data de abertura">
+                        <h:outputLabel value="#{registro.idNinhofk.dataAbertura.time}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                        </h:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="Data de Eclosão">
+                        <h:outputLabel value="#{registro.idNinhofk.dataEclosao.time}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                        </h:outputLabel>
+                    </p:column>
+
+                    <p:column headerText="N° Vivos">
+                        #{registro.idNinhofk.qtdVivos}
+                    </p:column>
+
+                    <p:column headerText="N° Natimortos" >
+                        #{registro.idNinhofk.qtdNatimortos}
+                    </p:column>
+
+                    <p:column headerText="Ovos não eclodidos">
+                        #{registro.idNinhofk.qtdOvosNaoEclodidos}
+                    </p:column>
+
+                    <p:column headerText="Tempo de incubação">
+                        #{registro.idNinhofk.tempoIncubação}
+                    </p:column>
+
+                    <p:column headerText="Monitor de Praia">
+                        #{registro.monitorPraia}
+                    </p:column>
+
+                    <p:column headerText="Ação" style="text-align: center" > 
+                        <p:commandButton title="Editar" icon="fa fa-edit" 
+                                         action="#{ocorrenciaReprodutivaBean.editar(registro,registro.idOcorrenciafk,registro.idOcorrenciafk.idCoordenadasGeograficasfk,
+                                                   registro.idOcorrenciafk.idTartarugafk,registro.idNinhofk,registro.idTransferenciaNinhofk)}"
+                                         oncomplete="PF('dialogo').show();"
+                                         update="frmCadastro">
+
+
+
+
+                        </p:commandButton> 
+
+                        <p:commandButton  title="Excluir" icon="fa fa-bitbucket"  actionListener="#{ocorrenciaReprodutivaBean.excluir}"
+                                          styleClass="btnExcluir" > 
+                            <p:confirm header="Confirmação" message="Deseja excluir o registro ?" icon="ui-icon-alert" />
+
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </p:panel>
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+                                 update=":frm:tabela"  />
+                <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+            </p:confirmDialog>
+        </h:form>
+
+
+
+
+        <p:dialog header="Ocorrência Reprodutiva" widgetVar="dialogo" modal="true"  resizable="false" draggable="false" 
+                  width="80%" visible="false"  style="margin-left:8%;margin-top: 2%"
+                  >
+
+            <h:form id="frmCadastro">
+                <div class="ui-fluid">
+
+                    <p:tabView style="margin-top: 5px" id="tabView" widgetVar="tabGeral" >
+
+                        <p:tab id="ocorrenciaTab" title="Ocorrência ">
+
+                            <p:panelGrid columns="4" layout="grid"
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Nº Diário Campo" for="diario"/>
+                                <p:inputText id="diario" value="#{ocorrenciaReprodutivaBean.ocorrencia.numDiarioCampo}" required="true" />
+
+                                <p:outputLabel value="Nº trecho do registro" for="trecho"/>
+                                <p:inputText id="trecho" value="#{ocorrenciaReprodutivaBean.ocorrencia.numTrechoRegistro}" required="true" /> 
+
+                                <p:outputLabel value="Sub-base" for="base"/>
+                                <p:selectOneMenu id="base"  value="#{ocorrenciaReprodutivaBean.ocorrencia.idSubBasefk}"
+                                                 converter="omnifaces.SelectItemsConverter" required="true" >
+                                    <f:selectItem itemLabel="Selecione a base" noSelectionOption="true" />
+                                    <f:selectItems value="#{subBaseBean.lista}" var="base" 
+                                                   itemLabel="#{base.nome}" itemValue="#{base}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Nº Registro tamar" for="registro"/>
+                                <p:inputText id="registro" value="#{ocorrenciaReprodutivaBean.ocorrencia.numRegTamar}" /> 
+
+                                <p:outputLabel value="Data ocorrência" for="data" />
+                                <p:calendar id="data" mask="99/99/9999"  pattern="dd/MM/yyyy" 
+                                            value="#{ocorrenciaReprodutivaBean.ocorrencia.dataOcorrencia}"/>
+
+
+                                <p:outputLabel value="Hora" for="hora"/>
+                                <p:calendar id="hora" value="#{ocorrenciaReprodutivaBean.ocorrencia.horaOcorrencia}" 
+                                            pattern="HH:mm:ss" timeOnly="true"  />
+
+                                <p:outputLabel value="Tipo ocorrencia" for="tipoOcorrencia"/>
+                                <p:selectOneMenu id="tipoOcorrencia" 
+                                                 value="#{ocorrenciaReprodutivaBean.ocorrenciaReprodutiva.idTipoOcorrenciaReprodutivofk}"
+                                                 converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Selecione tipo ocorrencia" noSelectionOption="true" />
+                                    <f:selectItems value="#{tipoOcorrenciaBean.lista}" var="tipo" 
+                                                   itemLabel="#{tipo.codigo}" itemValue="#{tipo}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Praia" for="praia"/>
+                                <p:selectOneMenu id="praia"  value="#{ocorrenciaReprodutivaBean.ocorrencia.idPraiafk}"
+                                                 converter="omnifaces.SelectItemsConverter" required="true">
+                                    <f:selectItem itemLabel="Selecione a praia" noSelectionOption="true" />
+                                    <f:selectItems value="#{praiasBean.lista}" var="cursor" 
+                                                   itemLabel="#{cursor.codigoPraia}" itemValue="#{cursor}" />
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+
+                            <p:fieldset legend="Local" style="margin-bottom: 5px;">
+                                <p:panelGrid columns="4" layout="grid"
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Local-KM" for="local"/>
+                                    <p:inputText id="local" value="#{ocorrenciaReprodutivaBean.ocorrencia.localKM}" required="true" /> 
+
+
+                                    <p:outputLabel value="Latitude" for="latitude"/>
+                                    <p:inputText id="latitude" value="#{ocorrenciaReprodutivaBean.coordenadasGeografica.latitude}" required="true"/> 
+
+                                    <p:outputLabel value="Longitude" for="longitude"/>
+                                    <p:inputText id="longitude" value="#{ocorrenciaReprodutivaBean.coordenadasGeografica.longitude}" required="true"/> 
+
+                                    <p:outputLabel value="Erro" for="erro"/>
+                                    <p:inputText id="erro" value="#{ocorrenciaReprodutivaBean.coordenadasGeografica.erro}" required="true"/> 
+                                </p:panelGrid>
+                            </p:fieldset>
+
+                            <p:panelGrid columns="4" layout="grid"
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Monitor de Praia" for="monitor" />
+                                <p:inputText id="monitor" value="#{ocorrenciaReprodutivaBean.ocorrenciaReprodutiva.monitorPraia}"/>
+
+                                <p:outputLabel value="Observações" for="obs"/>
+                                <p:inputTextarea value="#{ocorrenciaReprodutivaBean.ocorrencia.observacoes}" id="obs"/>
+
+                            </p:panelGrid>
+
+
+                        </p:tab>
+
+
+                        <p:tab id="tartarugaTab" title="Tartaruga">
+                            <p:panelGrid columns="4" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Nº Marca encontrada" for="marcaEncontrada"/>
+                                <p:inputText id="marcaEncontrada" size="10" value="#{ocorrenciaReprodutivaBean.tartaruga.numMarcaEncontrada}" />
+
+                                <p:outputLabel value="Nº Marca aplicada" for="marcaAplicada"/>
+                                <p:inputText id="marcaAplicada" size="10" value="#{ocorrenciaReprodutivaBean.tartaruga.numMarcaAplicada}" /> 
+
+                                <p:outputLabel value="Nº Marca removida" for="marcaRemovida"/>
+                                <p:inputText id="marcaRemovida" size="10" value="#{ocorrenciaReprodutivaBean.tartaruga.numMarcaRemovida}" /> 
+
+                                <p:outputLabel value="Largura casco" for="largura"/>
+                                <p:inputText id="largura" value="#{ocorrenciaReprodutivaBean.tartaruga.larguraCasco}"    /> 
+
+                                <p:outputLabel value="Comprimento casco" for="comprimento"/>
+                                <p:inputText id="comprimento" value="#{ocorrenciaReprodutivaBean.tartaruga.comprimentoCasco}"  /> 
+
+                                <p:outputLabel value="Peso" for="peso"/>
+                                <p:inputText id="peso" value="#{ocorrenciaReprodutivaBean.tartaruga.peso}"  /> 
+
+                                <p:outputLabel value="Sexo" for="sexo"/>
+                                <p:inputText id="sexo" value="#{ocorrenciaReprodutivaBean.tartaruga.sexo}"   /> 
+
+                                <p:outputLabel value="Idade" for="idade"/>
+                                <p:selectOneMenu id="idade"  value="#{ocorrenciaReprodutivaBean.tartaruga.idIdadefk}"
+                                                 converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Selecione a Idade" noSelectionOption="true" />
+                                    <f:selectItems value="#{idadeBean.lista}" var="idade" 
+                                                   itemLabel="#{idade.codigo}" itemValue="#{idade}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Espécie" for="especie"/>
+                                <p:selectOneMenu id="especie"  value="#{ocorrenciaReprodutivaBean.tartaruga.idEspeciefk}"
+                                                 converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Selecione a Espécie" noSelectionOption="true" />
+                                    <f:selectItems value="#{especieTartarugaBean.lista}" var="cursors" 
+                                                   itemLabel="#{cursors.sigla}" itemValue="#{cursors}" />
+                                </p:selectOneMenu>
+
+                                <p:outputLabel value="Tumores" for="tumores"/>
+                                <p:selectOneMenu id="tumores" value="#{ocorrenciaReprodutivaBean.tartaruga.idTumoresfk}"
+                                                 converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Tumores" noSelectionOption="true"/>
+                                    <f:selectItems value="#{tumoresBean.lista}" var="tumor"
+                                                   itemLabel="#{tumor.codigo}" itemValue="#{tumor}"/>
+                                </p:selectOneMenu>
+
+                            </p:panelGrid>
+
+                            <p:panelGrid columns="2" layout="grid" 
+                                         columnClasses="ui-grid-col-2, ui-grid-col-4"
+                                         styleClass="panelgrid-noborder">
+
+                                <p:outputLabel value="Id Trasmissor" for="idTrasmissor"/>
+                                <p:inputText id="idTrasmissor" value="#{ocorrenciaReprodutivaBean.tartaruga.idTransmissor}"/> 
+
+                            </p:panelGrid>
+
+                        </p:tab>
+
+
+
+
+
+
+                    </p:tabView>
+
+                    <p:panel>
+                        <p:toolbar>
+                            <p:toolbarGroup align="right">
+                                <p:commandButton value="Salvar" action="#{ocorrenciaReprodutivaBean.salvar}"
+                                                 oncomplete="PF('dialogo').hide();" update=":frm:tabela"/>
+                            </p:toolbarGroup>
+
+                        </p:toolbar>
+                    </p:panel>
+                </div>
+            </h:form>
+
+
+
+        </p:dialog>
+
+
+    </ui:define>
+</ui:composition>
+

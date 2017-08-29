@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <h1 class="aw-page-title">Histórico Ninho </h1>
+
+        <h:form id="frm">
+            <p:messages id="msg" />
+
+            <p:toolbar>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Novo"  action="#{historicoNinhoBean.novo}"
+                                     process="@this" oncomplete="PF('dialogo').show();" 
+                                     update=":frmCadastro :frm:tabela " />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable value="#{historicoNinhoBean.lista}" var="registro"
+                         resizableColumns="true" liveResize="true" resizeMode="expand"
+                         selectionMode="single" selection="#{historicoNinhoBean.bean}"
+                         rowKey="#{registro.id}" reflow="true" rowHover="true"
+                         style="margin-top: 20px" id="tabela">
+               
+                <p:column headerText="Código"  >
+                    #{registro.codigo}
+                </p:column>
+                
+                 <p:column headerText="Descrição"  >
+                    #{registro.descricao}
+                </p:column>
+
+                <p:column headerText="Editar" style="text-align: center" > 
+                    <p:commandButton title="Editar" icon="fa fa-edit" 
+                                     actionListener="#{historicoNinhoBean.editar}"
+                                     oncomplete="PF('dialogo').show();"
+                                     update="frmCadastro">
+                        <f:attribute name="registroSelecionado" value="#{registro}" /> 
+
+                    </p:commandButton> 
+                   
+                </p:column>
+
+            </p:dataTable>
+            
+        </h:form>
+
+        <p:dialog header="Histórico Ninho" widgetVar="dialogo" modal="true" >
+            <p:panel  >
+                <h:form id="frmCadastro">
+                    
+
+                    <p:messages autoUpdate="false" />
+                    <div class="ui-fluid">
+
+                        <p:panelGrid columns="2" layout="grid"
+                                     columnClasses="ui-grid-col-4, ui-grid-col-8"
+                                     styleClass="panelgrid-noborder">
+
+                            <p:outputLabel value="Código" for="cod"/>
+                            <p:inputText id="cod" value="#{historicoNinhoBean.bean.codigo}" /> 
+                            
+                            <p:outputLabel value="Descrição" for="desc"/>
+                            <p:inputText id="desc" value="#{historicoNinhoBean.bean.descricao}" /> 
+                        </p:panelGrid>
+
+                    </div>
+                    
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Salvar" action="#{historicoNinhoBean.salvar}"
+                                             oncomplete="PF('dialogo').hide();"  update=":frm:tabela :frm:msg"  />
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                </h:form>
+            </p:panel>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <p:dialog modal="false" header="Ocorrência Reprodutiva"  visible="true" widgetVar="dlg">
+            <h:form id="frmParametros">
+
+                <p:panelGrid id="painel" columns="2">
+
+                    <p:outputLabel value="Inicio:" for="inicio"/>
+                    <p:calendar id="inicio" value="#{ocorrenciaReprodutivaBean.ocorrencia.dataOcorrencia}" 
+                                pattern="dd/MM/yyyy" showOn="button" />
+
+                    <p:outputLabel value="Termino" for="termino"/>
+                    <p:calendar id="termino" value="#{ocorrenciaReprodutivaBean.ocorrencia.termino}" 
+                                pattern="dd/MM/yyyy" showOn="button" />
+
+                </p:panelGrid>
+
+                <p:panel styleClass="pnlBotao">
+                    <p:commandButton action="#{ocorrenciaReprodutivaBean.consutar}"  value="Consultar" icon="fa fa-search-minus" 
+                                     onclick="PF('dlg').hide();" update=":frm" >
+                    </p:commandButton>
+
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <h:form id="frm">
+
+            <p:toolbar>
+                <f:facet name="right">
+                    <p:commandButton type="button" value="Parametros" icon="fa fa-filter" onclick="PF('dlg').show();"/>
+
+                    <p:separator />
+
+                    <p:commandButton icon="fa fa-file-text" title="Exportar para CSV" ajax="false" immediate="true">
+                        <p:dataExporter type="csv" target="tabela" fileName="Ocorrência Reprodutiva" />
+                    </p:commandButton>
+
+                </f:facet>
+            </p:toolbar>
+
+            <p:dataTable value="#{ocorrenciaReprodutivaBean.resultado}" var="registro"
+                         resizableColumns="true" tableStyle="width:auto" 
+                         id="tabela"   rendered="#{ocorrenciaReprodutivaBean.resultado.size() > 0 eq true}"> >
+
+                <p:column headerText="#"  >
+                    <p:outputLabel value="#{registro.id}"/> 
+                </p:column>
+
+                <p:column headerText="Data ocorrência" >
+                    <h:outputLabel value="#{registro.dataOcorrencia.time}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </h:outputLabel>
+                </p:column>
+
+                <p:column headerText="Hora ocorrência" >
+                    <p:outputLabel value="#{registro.horaOcorrencia}"/> 
+                </p:column>
+
+                <p:column headerText="Município"  >
+                    <p:outputLabel value="#{registro.idPraiafk.idMunicipiofk.nomeMunicipio}"/> 
+                </p:column>
+
+                <p:column headerText="Praia">
+                    <p:outputLabel value=" #{registro.idPraiafk.codigoPraia}"/> 
+                </p:column>
+
+                <p:column headerText="Local-Km">
+                    <p:outputLabel value="#{registro.localKM}"/> 
+                </p:column>
+
+                <p:column headerText="Latitude">
+                    <p:outputLabel value="#{registro.idCoordenadasGeograficasfk.latitude}"/> 
+                </p:column>
+
+                <p:column headerText="Longitude">
+                    <p:outputLabel value="#{registro.idCoordenadasGeograficasfk.longitude}"/> 
+                </p:column>
+
+                <p:column headerText="Erro (m)" >
+                    <p:outputLabel value="#{registro.idCoordenadasGeograficasfk.longitude}"/> 
+                </p:column>
+
+                <p:column headerText="N° marcas encontradas">
+                    <p:outputLabel value="#{registro.idTartarugafk.numMarcaEncontrada}"/> 
+                </p:column>
+
+                <p:column headerText="N° marcas colocadas">
+                    <p:outputLabel value="#{registro.idTartarugafk.numMarcaAplicada}"/> 
+                </p:column>
+
+                <p:column headerText="Comprimento do casco (m)"  >
+                    <p:outputLabel value="#{registro.idTartarugafk.comprimentoCasco}"/> 
+                </p:column>
+
+                <p:column headerText="Largura do casco (m)" >
+                    <p:outputLabel value="#{registro.idTartarugafk.larguraCasco}"/> 
+                </p:column>
+
+                <p:column headerText="Espécie" >
+                    <p:outputLabel value="#{registro.idTartarugafk.idEspeciefk.especie}"/> 
+                </p:column>
+
+                <p:column headerText="Tumores" >
+                    <p:outputLabel value="#{registro.idTartarugafk.idTumoresfk.codigo}"/> 
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

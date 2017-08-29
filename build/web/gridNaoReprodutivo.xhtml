@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+        <f:view>
+            <p:panel style="width:100%" header="Ocorrência Não Reprodutiva">
+                <h:form>
+                    <p:messages id="msg"/>
+                    <p:toolbar >
+                        <p:toolbarGroup align="right" >
+                            <p:commandButton value="Novo" 
+                                             style="height: 40px" icon="ui-icon-document" 
+                                             action="#{gridNAOReprodutivoBean.editar}" />
+
+                            <p:commandButton value="Editar" icon="fa fa-edit"  action="#{gridNAOReprodutivoBean.editar}" 
+                                             style="height: 40px"/>
+                            
+
+                            <p:commandButton id="toggler" type="button" value="Colunas"  icon="ui-icon-calculator" 
+                                             style="height: 40px"/>
+                            <p:columnToggler datasource="tabela" trigger="toggler" />
+                        </p:toolbarGroup>
+                    </p:toolbar>
+
+                    <p:dataTable value="#{gridNAOReprodutivoBean.lista}" var="registro"
+                                 resizableColumns="true" tableStyle="width:auto" reflow="true" rowHover="true" 
+                                 id="tabela" selectionMode="single" selection="#{gridNAOReprodutivoBean.naoReprodutiva}"
+                                 rowKey="#{registro.id}"  >
+
+                        <p:columnGroup type="header">
+                            <p:row>
+                                <p:column headerText="Ocorrência"  colspan="17" />
+                                <p:column headerText="Local"  colspan="5" />
+                                <p:column headerText="Tartaruga"  colspan="6" />
+
+                            </p:row>
+
+                            <p:row>
+
+                                <p:column headerText="ID" />
+                                <p:column headerText="N° Diário campo" />
+                                <p:column headerText="Número trecho do registro" />
+                                <p:column headerText="Sub-base" />
+                                <p:column headerText="N° Registro TAMAR"/> 
+                                <p:column headerText="Data ocorrência" />
+                                <p:column headerText="Hora ocorrência" />
+                                <p:column headerText="Tipo ocorrência" />
+                                <p:column headerText="Condição corporal" />
+                                <p:column headerText="Estágio decomposição" />
+                                <p:column headerText="Interação" />
+                                <p:column headerText="Evidência Pesca" />
+                                <p:column headerText="Forma" />
+                                <p:column headerText="Origem" />
+                                <p:column headerText="Destino"/>
+                                <p:column headerText="Local" />
+                                <p:column headerText="Responsável"/>
+
+                                <p:column headerText="Praia"/>
+                                <p:column headerText="Local-Km"/>
+                                <p:column headerText="Latitude"/>
+                                <p:column headerText="Longitude"/>
+                                <p:column headerText="Erro (m)" />
+
+                                <p:column headerText="N° marcas encontradas"/>
+                                <p:column headerText="N° marcas colocadas"/>
+                                <p:column headerText="Comprimento do casco (m)"/>
+                                <p:column headerText="Largura do casco (m)" />
+                                <p:column headerText="Espécie"/>
+                                <p:column headerText="Tumores"/>
+
+
+                            </p:row>
+                        </p:columnGroup>
+
+                        <p:column >
+                            #{registro.id}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.numDiarioCampo}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.numTrechoRegistro}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idOcorrenciafk.idSubBasefk.nome}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.numRegTamar}
+                        </p:column>
+
+                        <p:column >
+                            <h:outputLabel value="#{registro.idOcorrenciafk.dataOcorrencia.time}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                            </h:outputLabel>
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.horaOcorrencia}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idTipoRegistroNaoReprodutivofk.codigo}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idCondicaoCorporalfk.codigo}
+                        </p:column>
+
+                        <p:column  >
+                            #{registro.idEstagioDecomposicaofk.codigo}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idInteracaofk.codigo}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idEvidenciaPescafk.codigo}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idFormafk.codigo}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOrigemfk.codigo}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idDestinofk.codigo}
+                        </p:column>
+
+                        <p:column  >
+                            #{registro.idLocal_fk.codigo}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.responsavel}
+                        </p:column>
+
+                        <p:column>
+                            #{registro.idOcorrenciafk.idPraiafk.codigoPraia}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.localKM}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.latitude}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.longitude}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idCoordenadasGeograficasfk.erro}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idTartarugafk.numMarcaEncontrada}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idTartarugafk.numMarcaAplicada}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idTartarugafk.comprimentoCasco}
+                        </p:column>
+
+                        <p:column  >
+                            #{registro.idOcorrenciafk.idTartarugafk.larguraCasco}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idTartarugafk.idEspeciefk.especie}
+                        </p:column>
+
+                        <p:column >
+                            #{registro.idOcorrenciafk.idTartarugafk.idTumoresfk.codigo}
+                        </p:column>
+
+
+                    </p:dataTable>
+
+
+                </h:form>
+            </p:panel>
+
+        </f:view>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" 
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui" >
+    <h:head>
+        <meta charset="utf-8"/>
+        <title></title>
+        <link rel="shortcut icon" href="resources/imagens/favicon.ico" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        
+        <link href="${facesContext.externalContext.requestContextPath}/resources/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="${facesContext.externalContext.requestContextPath}/resources/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+        <link href="${facesContext.externalContext.requestContextPath}/resources/assets/admin/pages/css/login.css" rel="stylesheet" type="text/css"/>
+
+
+    </h:head>
+    <h:body class="login" >
+        
+        <div class="logo">
+           
+        </div>
+        <div class="content">
+            <h:form  class="login-form" id="login">
+                <p:growl id="msg"/>
+                <h3 class="form-title">Informe seu usuário e senha para acessar</h3>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Usuário</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <p:inputText class="form-control placeholder-no-fix"  p:placeholder="usuário"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">Senha</label>
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <p:password class="form-control placeholder-no-fix"  p:placeholder="Senha"/>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <h:commandButton  action="#{menuBean.login}" id="btn" class="btn blue pull-right" value="Acessar">
+                      
+                    </h:commandButton>
+                
+                   
+                </div>
+            </h:form>
+        </div>
+        <div class="copyright">
+            2017 copy|todos os direitos reservado
+        </div>
+    </h:body>
+</html>

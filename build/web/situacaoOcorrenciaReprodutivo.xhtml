@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <h1 class="aw-page-title" style="margin-top: 3%">Situação da Ocorrencia - Reprodutivo </h1>
+
+        <h:form id="frm">
+            <p:messages id="msg" />
+
+            <p:toolbar>
+                <p:toolbarGroup align="right">
+                    <p:commandButton value="Novo"  action="#{situacaoOcorrenciaBean.novo}"
+                                     process="@this" oncomplete="PF('dialogo').show();" 
+                                     update=":frmCadastro :frm:tabela " />
+                </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable value="#{situacaoOcorrenciaBean.lista}" var="registro"
+                         resizableColumns="true" liveResize="true" resizeMode="expand"
+                         selectionMode="single" selection="#{situacaoOcorrenciaBean.situacaoOcorrenciaReprodutivo}"
+                         rowKey="#{registro.id}" reflow="true" rowHover="true"
+                         style="margin-top: 20px" id="tabela">
+               
+                <p:column headerText="Código"  >
+                    #{registro.codigo}
+                </p:column>
+               
+                <p:column headerText="Descrição"  >
+                    #{registro.descricao}
+                </p:column>
+                
+                 <p:column headerText="Transferencia de ninho"  >
+                     <h:outputText rendered="#{registro.isTransfer == true}" value="Sim" />  
+                     <h:outputText rendered="#{registro.isTransfer == false}" value="Não" />
+                </p:column>
+
+                <p:column headerText="Editar" style="text-align: center" > 
+                    <p:commandButton title="Editar" icon="fa fa-edit" 
+                                     actionListener="#{situacaoOcorrenciaBean.editar}"
+                                     oncomplete="PF('dialogo').show();"
+                                     update="frmCadastro">
+                        <f:attribute name="registroSelecionado" value="#{registro}" /> 
+
+                    </p:commandButton> 
+                </p:column>
+
+            </p:dataTable>
+
+        </h:form>
+
+        <p:dialog header="Cadastrar situação da ocorrência" widgetVar="dialogo" modal="true"   >
+            <p:panel  >
+                <h:form id="frmCadastro">
+
+
+                    <p:messages autoUpdate="false" />
+                    <div class="ui-fluid">
+
+                        <p:panelGrid columns="2" layout="grid"
+                                     columnClasses="ui-grid-col-4, ui-grid-col-8"
+                                     styleClass="panelgrid-noborder">
+
+                            <p:outputLabel value="Código" for="codigo"/>
+                            <p:inputText id="codigo" value="#{situacaoOcorrenciaBean.situacaoOcorrenciaReprodutivo.codigo}" /> 
+
+                            <p:outputLabel value="Descrição" for="descricao"/>
+                            <p:inputText id="descricao" value="#{situacaoOcorrenciaBean.situacaoOcorrenciaReprodutivo.descricao}" />
+                            
+                            <h:outputText value="Transferencia de ninho" />
+                            <p:selectBooleanButton id="value1" value="#{situacaoOcorrenciaBean.situacaoOcorrenciaReprodutivo.isTransfer}" onLabel="Sim" offLabel="Não" style="width:60px" />
+                        </p:panelGrid>
+
+
+                    </div>
+
+                    <p:toolbar>
+                        <p:toolbarGroup>
+                            <p:commandButton value="Salvar" action="#{situacaoOcorrenciaBean.salvar}"
+                                             oncomplete="PF('dialogo').hide();"  update=":frm:tabela :frm:msg"  />
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </h:form>
+            </p:panel>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+

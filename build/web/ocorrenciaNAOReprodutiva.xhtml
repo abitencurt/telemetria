@@ -1,0 +1,298 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/Layout.xhtml">
+
+    <ui:define name="content">
+
+        <p:panel header="Ocorrência não reprodutivo" id="painel" >
+
+            <h:form id="frmCadastro">
+                <p:messages id="msg" />
+
+                <p:toolbar >
+                    <p:toolbarGroup align="right" >
+                        <p:button value="Voltar" outcome="gridNaoReprodutivo?faces-redirect=true" style="height: 40px"
+                                  icon="fa fa-undo" />
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <div class="ui-fluid">
+                    <p:tabView style="margin-top: 5px" id="tabView" widgetVar="tabGeral" dynamic="true" >
+
+                        <p:tab id="ocorrenciaTab" title="Ocorrência ">
+
+                            <p:fieldset legend="Ocorrência" >
+                               
+
+                                <p:panelGrid columns="4" layout="grid"
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Nº Diário Campo" for="diario"/>
+                                    <p:inputText id="diario" value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.numDiarioCampo}"/>
+
+                                    <p:outputLabel value="Nº trecho do registro" for="trecho"/>
+                                    <p:inputText id="trecho" value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.numTrechoRegistro}" /> 
+
+                                    <p:outputLabel value="Sub-base" for="base"/>
+                                    <p:selectOneMenu id="base"  value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.idSubBasefk}"
+                                                     converter="omnifaces.SelectItemsConverter" >
+                                        <f:selectItem itemLabel="Selecione a base" noSelectionOption="true" />
+                                        <f:selectItems value="#{subBaseBean.lista}" var="base" 
+                                                       itemLabel="#{base.nome}" itemValue="#{base}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Nº Registro tamar" for="registro"/>
+                                    <p:inputText id="registro" value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.numRegTamar}" /> 
+
+                                    <p:outputLabel value="Data ocorrência" for="data" />
+                                    <p:calendar id="data" mask="99/99/9999"  pattern="dd/MM/yyyy" 
+                                                value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.dataOcorrencia}"
+                                                required="true" requiredMessage="preenchimento obrigatorio" />
+
+
+                                    <p:outputLabel value="Hora" for="hora"/>
+                                    <p:calendar id="hora" value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.horaOcorrencia}" 
+                                                pattern="HH:mm:ss" timeOnly="true"  />
+
+                                    <p:outputLabel value="Praia" for="praia"/>
+                                    <p:selectOneMenu id="praia"  value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.idPraiafk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Selecione a praia" noSelectionOption="true" 
+                                                      />
+                                        <f:selectItems value="#{praiasBean.lista}" var="cursor" 
+                                                       itemLabel="#{cursor.codigoPraia}" itemValue="#{cursor}" />
+                                    </p:selectOneMenu>
+
+                                </p:panelGrid>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Local" >
+                                <p:panelGrid columns="4" layout="grid" 
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Local-KM" for="local"/>
+                                    <p:inputText id="local" value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.localKM}"
+                                                 /> 
+
+                                    <p:outputLabel value="Latitude" for="latitude"/>
+                                    <p:inputText id="latitude" value="#{ocorrenciaNAOReprodutivaBean.geograficas.latitude}"
+                                                 required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                                    <p:outputLabel value="Longitude" for="longitude"/>
+                                    <p:inputText id="longitude" value="#{ocorrenciaNAOReprodutivaBean.geograficas.longitude}"
+                                                 required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                                    <p:outputLabel value="Erro" for="erro"/>
+                                    <p:inputText id="erro" value="#{ocorrenciaNAOReprodutivaBean.geograficas.erro}"
+                                                 required="true" requiredMessage="preenchimento obrigatorio"/>
+
+                                </p:panelGrid>
+
+                            </p:fieldset>
+
+                            <p:outputLabel value="Observações:" for="obs" />
+                            <p:inputTextarea value="#{ocorrenciaNAOReprodutivaBean.ocorrencia.observacoes}" id="obs" />
+
+                            <p:fieldset legend="Tartaruga" >
+
+                                <p:panelGrid columns="4" layout="grid" 
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Nº Marca encontrada" for="marcaEncontrada"/>
+                                    <p:inputText id="marcaEncontrada" size="10" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.numMarcaEncontrada}" />
+
+                                    <p:outputLabel value="Nº Marca aplicada" for="marcaAplicada"/>
+                                    <p:inputText id="marcaAplicada" size="10" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.numMarcaAplicada}"/> 
+
+                                    <p:outputLabel value="Nº Marca removida" for="marcaRemovida"/>
+                                    <p:inputText id="marcaRemovida" size="10" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.numMarcaRemovida}" /> 
+
+                                    <p:outputLabel value="Largura casco" for="largura"/>
+                                    <p:inputText id="largura" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.larguraCasco}" 
+                                                 required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                                    <p:outputLabel value="Comprimento casco" for="comprimento"/>
+                                    <p:inputText id="comprimento" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.comprimentoCasco}" 
+                                                 required="true" requiredMessage="preenchimento obrigatorio"/> 
+
+                                    <p:outputLabel value="Peso" for="peso"/>
+                                    <p:inputText id="peso" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.peso}"  /> 
+
+                                    <p:outputLabel value="Sexo" for="sexo"/>
+                                    <p:inputText id="sexo" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.sexo}"  /> 
+
+                                    <p:outputLabel value="Idade" for="idade"/>
+                                    <p:selectOneMenu id="idade"  value="#{ocorrenciaNAOReprodutivaBean.tartaruga.idIdadefk}"
+                                                     converter="omnifaces.SelectItemsConverter">
+                                        <f:selectItem itemLabel="Selecione a Idade" noSelectionOption="true" />
+                                        <f:selectItems value="#{idadeBean.lista}" var="idade" 
+                                                       itemLabel="#{idade.codigo}" itemValue="#{idade}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Espécie" for="especie"/>
+                                    <p:selectOneMenu id="especie"  value="#{ocorrenciaNAOReprodutivaBean.tartaruga.idEspeciefk}"
+                                                     converter="omnifaces.SelectItemsConverter" 
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Selecione a Espécie" noSelectionOption="true" />
+                                        <f:selectItems value="#{especieTartarugaBean.lista}" var="cursors" 
+                                                       itemLabel="#{cursors.sigla}" itemValue="#{cursors}" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Tumores" for="tumores"/>
+                                    <p:selectOneMenu id="tumores" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.idTumoresfk}"
+                                                     converter="omnifaces.SelectItemsConverter">
+                                        <f:selectItem itemLabel="Tumores" noSelectionOption="true"/>
+                                        <f:selectItems value="#{tumoresBean.lista}" var="tumor"
+                                                       itemLabel="#{tumor.codigo}" itemValue="#{tumor}"/>
+                                    </p:selectOneMenu>
+
+                                </p:panelGrid>
+
+                                <p:panelGrid columns="2" layout="grid" 
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Id Trasmissor" for="idTrasmissor"/>
+                                    <p:inputText id="idTrasmissor" value="#{ocorrenciaNAOReprodutivaBean.tartaruga.idTransmissor}"/> 
+
+                                </p:panelGrid>
+                            </p:fieldset>
+
+                            <p:fieldset legend="Ocorrência não reprodutiva">
+
+                                <p:panelGrid columns="4" layout="grid" 
+                                             columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4"
+                                             styleClass="panelgrid-noborder">
+
+                                    <p:outputLabel value="Tipo ocorrência" for="cb1"/>
+                                    <p:selectOneMenu id="cb1" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idTipoRegistroNaoReprodutivofk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Tipo ocorrência não reprodutiva" noSelectionOption="true"/>
+                                        <f:selectItems value="#{tipoRegNaoReprodutivoBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Condição corporal" for="cb2"/>
+                                    <p:selectOneMenu id="cb2" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idCondicaoCorporalfk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Condição corporal" noSelectionOption="true"/>
+                                        <f:selectItems value="#{condicaoCorporalBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Estágio decomposição corporal" for="cb3"/>
+                                    <p:selectOneMenu id="cb3" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idEstagioDecomposicaofk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Estágio decomposição" noSelectionOption="true"/>
+                                        <f:selectItems value="#{estagioDecomposicaoBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Interação" for="cb4"/>
+                                    <p:selectOneMenu id="cb4" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idInteracaofk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Interação" noSelectionOption="true"/>
+                                        <f:selectItems value="#{interacaoBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Evidência Pesca" for="cb5"/>
+                                    <p:selectOneMenu id="cb5" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idEvidenciaPescafk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Evidência Pesca" noSelectionOption="true"/>
+                                        <f:selectItems value="#{evidenciaPescaBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Forma" for="cb6"/>
+                                    <p:selectOneMenu id="cb6" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idFormafk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Forma" noSelectionOption="true"/>
+                                        <f:selectItems value="#{formaBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Origem" for="cb7"/>
+                                    <p:selectOneMenu id="cb7" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idOrigemfk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Origem" noSelectionOption="true"/>
+                                        <f:selectItems value="#{origemBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Destino" for="cb8"/>
+                                    <p:selectOneMenu id="cb8" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idDestinofk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="Destino" noSelectionOption="true"/>
+                                        <f:selectItems value="#{destinoBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Coleção científica" for="cb9"/>
+                                    <p:selectOneMenu id="cb9" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.colecaoCientifica}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="Coleção científica">
+                                        <f:selectItem itemLabel="Coleção científica" noSelectionOption="true"/>
+                                        <f:selectItem itemLabel="Sim" itemValue="true" />
+                                        <f:selectItem itemLabel="Não" itemValue="false" />
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Local" for="cb10"/>
+                                    <p:selectOneMenu id="cb10" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.idLocal_fk}"
+                                                     converter="omnifaces.SelectItemsConverter"
+                                                     required="true" requiredMessage="preenchimento obrigatorio">
+                                        <f:selectItem itemLabel="" noSelectionOption="true"/>
+                                        <f:selectItems value="#{localBean.lista}" var="lista"
+                                                       itemLabel="#{lista.codigo}" itemValue="#{lista}"/>
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel value="Responsável" for="responsavel1"/>
+                                    <p:inputText id="responsavel1" value="#{ocorrenciaNAOReprodutivaBean.naoReprodutiva.responsavel}" 
+                                                 required="true" /> 
+                                </p:panelGrid>
+
+                            </p:fieldset>
+                        </p:tab >
+
+                        
+
+                    </p:tabView>
+                </div>
+
+                <p:toolbar>
+                    <f:facet name="right">
+                        <p:commandButton value="Salvar" icon="ui-icon-disk" actionListener="#{ocorrenciaNAOReprodutivaBean.salvar}"
+                                         style="height: 40px" /> 
+
+                        <p:commandButton value="Excluir"  icon="fa fa-bitbucket"  actionListener="#{ocorrenciaNAOReprodutivaBean.excluir}"
+                                         style="height: 40px" rendered="#{not empty ocorrenciaNAOReprodutivaBean.naoReprodutiva.id}"> 
+                            <p:confirm header="Confirmação" message="Deseja excluir o registro ?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:toolbar>
+
+                <p:confirmDialog global="true">
+                    <p:commandButton value="SIM" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="NÃO" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+
